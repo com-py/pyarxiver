@@ -26,7 +26,7 @@ The video is downloaded in chunks of `.ts` files to the default directory `frags
     - the option `delete` is preferred as it removes used chunks, so only fresh ones are included the next time you run `combts`. This way one can play the video as it is being downloaded. Of course, the `.ts` files may also be processed with <a href="https://ffmpeg.org/"> FFmpeg</a>, eg, converting it to `mp4` files.
 
 If you use the binary executables, verify the checksums to be sure:
-- `pyarxiver-win.zip SHA1: A019FFD57BB4F674D628256707865B83BD0504B6`
+- `pyarxiver-win.zip SHA1: 87E6678ECD4B4975F10F97C8C8F70CA8F42468AD`
 - `combts-win.zip SHA1: 7DFD50B1DC6257F60A4E34ADE7785A4AF4EBB6A8`
 
 `pyarxiver` works on `LIVE` streams only. For non-live videos, try <a href="https://github.com/yt-dlp/yt-dlp"> `yt-dlp`</a>.
