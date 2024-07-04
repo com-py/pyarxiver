@@ -261,7 +261,7 @@ frag = max(int(curr_frag)-frag_back, 0)   # adjust time back
 # ================ create new frag dir if necessary
 n, newdir = 0, fragdir
 while os.path.exists(newdir):       # existing dir must be empty
-    if os.path.isdir(newdir) and len(os.listdir(newdir)) == 0:  # yes
+    if os.path.isdir(newdir) and len(os.listdir(newdir)) == 0:  # ok
         break
     n += 1
     newdir = fragdir + repr(n)
@@ -294,7 +294,7 @@ while True:
         if count % counter == 0:    # update status
             vidlen = frag_dur*count
             hr, mn = vidlen//3600, (vidlen%3600)//60
-            print('frags done: {}, size: {} (mb), time (hr:min) = {}:{}'.format(count, size//1000000, hr, mn), end='\r')
+            print('frags done: {}, size: {} (mb), time (hr:min) = {}:{}'.format(count, size//1000000, hr, ('0'+repr(mn))[-2:], end='\r'))
     else:
         terminate(count, count)     # filler args
         
