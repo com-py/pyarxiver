@@ -14,7 +14,7 @@ You can run the program with or without a Python installation.
     - download from 1 day and 1 hour ago (25 hours back) at 1920x1080
 - Without Python (Windows only):
   
-  The program is packaged as binary executable, thanks to <a href="https://github.com/pyinstaller/pyinstaller"> pyinstaller</a>. Download and extract the zip file `pyarxiver-win.zip`, put it in your path, and run it just like above. For example,
+  The program is also packaged as binary executable, thanks to <a href="https://github.com/pyinstaller/pyinstaller"> pyinstaller</a>. Download and extract the zip file `pyarxiver-win.zip`, put it in your path, and run it just like above. For example,
   - `pyarxiver video-link 0:30`  
     - download from 30 minutes ago at 720p
 
@@ -23,7 +23,7 @@ The video is downloaded in chunks of `.ts` files to the default directory `frags
     - combines all files (up to 1440, or 2 hours) in `fragsdir` to `vid-combtsXYZ.ts`, leaving the fragments in place. Here `XYZ` is a sequence 1,2,3 etc. to label the combined videos.
   - `combts fragsdir 1440 delete`
     - combines up to 1440 files (actual files may be fewer) in `fragsdir` and delete the fragments after the video file is produced
-    - the option `delete` is preferred as it removes used chunks, so only fresh ones are included the next time you run `combts`. This way one can play the video as it is being downloaded. Of course, the `.ts` files may also be processed with <a href="https://ffmpeg.org/"> FFmpeg</a>, eg, converting it to `mp4` files.
+    - the option `delete` is preferred as it removes used chunks, so only fresh ones are included the next time you run `combts`. This way one can play the video as it is being downloaded. Of course, the `.ts` files may also be processed with <a href="https://ffmpeg.org/"> FFmpeg</a>, eg, converting them to `mp4` files.
 
 If you use the binary executables, verify the checksums to be sure:
 - `pyarxiver-win.zip SHA1: 82350985B43DFE163FB94EC9374474442BB462B9`
