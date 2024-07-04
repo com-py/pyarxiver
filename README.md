@@ -28,3 +28,5 @@ The video is downloaded in chunks of `.ts` files to the default directory `frags
 If you use the binary executables, verify the checksums to be sure:
 - `pyarxiver-win.zip SHA1: A019FFD57BB4F674D628256707865B83BD0504B6`
 - `combts-win.zip SHA1: 7DFD50B1DC6257F60A4E34ADE7785A4AF4EBB6A8`
+
+`pyarxiver` works on `LIVE` streams only. For non-live videos, try <a href="https://github.com/yt-dlp/yt-dlp"> `yt-dlp`</a>.
