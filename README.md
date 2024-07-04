@@ -1,7 +1,7 @@
 # pyarxiver
 Python Youtube Arxiver - record from any point of live streams
 
-This is a compact, resource-efficient program to download youtube `live` streams from any point of the stream, up to the  limit of past 5 days. The program is inspired by <a href="https://github.com/Kethsar/ytarchive"> ytarchive</a>, but with the option to choose the start time and less resource-intensive.
+This is a compact, resource-efficient program to download youtube `live` streams from any point of the stream, up to the  limit of past 5 days. The program is inspired by <a href="https://github.com/Kethsar/ytarchive"> ytarchive</a>, but with the option to choose the start time and more resource friendly.
 
 You can run the program with or without a Python installation.
 
