@@ -294,7 +294,7 @@ while True:
         if count % counter == 0:    # update status
             vidlen = frag_dur*count
             hr, mn = vidlen//3600, (vidlen%3600)//60
-            print('frags done: {}, size: {} (mb), time (hr:min) = {}:{}'.format(count, size//1000000, hr, ('0'+repr(mn))[-2:], end='\r'))
+            print('frags done: {}, size: {} (mb), time (hr:min) = {}:{}'.format(count, size//1000000, hr, ('0'+repr(mn))[-2:]), end='\r')
     else:
         terminate(count, count)     # filler args
         
