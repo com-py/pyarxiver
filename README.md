@@ -13,6 +13,7 @@ You can run the program with or without a Python installation.
   - `python pyarxiver.py video-link 1:1:0 1920x1080`
     - download from 1 day and 1 hour ago (25 hours back) at 1920x1080
 - Without Python (Windows only):
+  
   The program is packaged as binary executable, thanks to <a href="https://github.com/pyinstaller/pyinstaller"> pyinstaller</a>. Download and extract the zip file `pyarxiver-win.zip`, put it in your path, and run it just like above. For example,
   - `pyarxiver video-link 0:30`  
     - download from 30 minutes ago at 720p
