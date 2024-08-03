@@ -3,14 +3,14 @@
 
 from io import StringIO
 from datetime import datetime
-import sys, os, signal, logging
-from urllib.error import HTTPError
+import sys, os, signal, logging, socket
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 
 # ================ constants
 PROJ = {'name'      : 'pyarxiver',
-        'version'   : '1.00',
+        'version'   : '1.01',
         'author'    : 'compy',
         'page'      : 'https://github.com/com-py/',
         'license'   : 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
@@ -64,10 +64,13 @@ def download_data(url, header=False):     # download data as bytes
     while retry < retries:
         retry += 1
         try:
-            data = urlopen(req, timeout=10).read()
-        except HTTPError:       # session likely expired
+            data = urlopen(req).read()
+        except socket.timeout as error:             # session likely expired
             if retry < retries:
-                msg.info('http error ... {}'.format(url[-10:]))
+                msg.info('timeout error ... {}, frag {} '.format(error, count))
+        except (HTTPError, URLError) as error:      # session likely expired
+            if retry < retries:
+                msg.info('http error ... {}, frag {} '.format(error, count))
         else:           # successful
             success = True
             break
