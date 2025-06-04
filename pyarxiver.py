@@ -10,7 +10,7 @@ from urllib.request import Request, urlopen
 
 # ================ constants
 PROJ = {'name'      : 'pyarxiver',
-        'version'   : '1.01',
+        'version'   : '1.02',
         'author'    : 'compy',
         'page'      : 'https://github.com/com-py/',
         'license'   : 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
@@ -30,12 +30,12 @@ prefix = 'f720p.frag'
 yellow = "\033[33m"
 coloff = "\033[0m"
 
-hdrs = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0'}
+hdrs = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0'}
 ytube = 'https://www.youtube.com/watch?v='
 
 
 # ================ define modules
-"""    
+"""
     quit, highlight, terminate, download_data, get_m3u8, parser, get_seq, cal_time_back
 """
 
@@ -50,17 +50,17 @@ def highlight(text):    # highlight text with escape sequence
 
 def terminate(signal, frame):       # Ctrl-C handler
     quit('total frags completed: {}'.format(count))
-    
+
 
 def download_data(url, header=False):     # download data as bytes
     retry, data, success = 0, b'', False
-    
+
     try:
         req = Request(url, headers=hdrs if header else {})
     except:
         msg.info('unknown request: {}'.format(url))
         return b'', False
-        
+
     while retry < retries:
         retry += 1
         try:
@@ -74,7 +74,7 @@ def download_data(url, header=False):     # download data as bytes
         else:           # successful
             success = True
             break
-    
+
     return data, success
 
 
@@ -82,7 +82,7 @@ def get_m3u8(data):     # get m3u8 link
     beg = 'https'
     end = 'index.m3u8'
     url = ''
-    
+
     with StringIO(data) as f:
         for eachline in f:
             line = eachline.strip()
@@ -97,7 +97,7 @@ def get_m3u8(data):     # get m3u8 link
 def parser(data):   # parse master m3u8 for formats and urls
     mark1 = 'RESOLUTION='
     mark2 = 'index.m3u8'
-    
+
     formats, resolution = [], ''
     with StringIO(data) as f:
         for eachline in f:
@@ -118,7 +118,7 @@ def get_seq(htmdata):   # get sequence number
     curr_frag = 0
     beg, end = 'https', '/sq/'
     url, dur = '', '/dur/'
-    
+
     with StringIO(htmdata) as file:
         for eachline in file:
             line = eachline.strip()
@@ -130,7 +130,7 @@ def get_seq(htmdata):   # get sequence number
                     url = line[pos1: j]
                     k = j + line[j:].find('/')
                     curr_frag = line[j: k]
-                    
+
                     pos1 = line[k:].find(dur)
                     if pos1 > 0:
                         durstr = line[k + pos1 + len(dur):][:5]
@@ -139,15 +139,15 @@ def get_seq(htmdata):   # get sequence number
                     break
 
     return url, curr_frag, frag_dur
-    
-    
+
+
 # calculate frag number from time back, timeback format=days:hrs:min
-def cal_time_back(timeback, frag_dur):    
+def cal_time_back(timeback, frag_dur):
     valid = True
     seconds = 0
     factor = [60, 3600, 24*3600]    # secs in one min, hr, day
     maxval = [59, 23, 5]            # maximum values in each field
-    
+
     items = timeback.split(':')
     items.reverse()                 # reverse order in case day is missing
     n = len(items)
@@ -160,7 +160,7 @@ def cal_time_back(timeback, frag_dur):
             else:
                 valid = False
                 break
-        
+
     if valid:
         seconds = min(seconds, factor[2]*5) # max time back not to exceed 5 days
         time_back = datetime.fromtimestamp(datetime.now().timestamp() - seconds)
@@ -171,7 +171,7 @@ def cal_time_back(timeback, frag_dur):
 
 # ================ config loggger console output
 msg = logging.getLogger(PROJ['name'])
-logging.basicConfig(level=logging.INFO, 
+logging.basicConfig(level=logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s',
             datefmt='%Y.%m.%d %H:%M:%S')
 os.system("color")  # enable color output
@@ -180,7 +180,7 @@ msg.info(PROJ['name'] + ' (v' + PROJ['version'] + ') - ' + PROJ['desc'])
 msg.info(PROJ['page'] + PROJ['name'] + '\n')
 
 
-# ================ process arguments    
+# ================ process arguments
 n = len(sys.argv)
 if n <2 or n > 4:   # too few or too many args
     why = 'no video link' if n<2 else 'too many parameters'
@@ -235,12 +235,12 @@ for fmt in formats:             # select format and actual url
         fmturl = fmt[1]
 
 msg.info('available formats: {}'.format(allfmt))
-if len(fmturl) == 0:    # no standard 
+if len(fmturl) == 0:    # no standard
     quit('No standard video format found, choose an available one above')
 
 
 # ================ get actual video frags link
-data, success = download_data(fmturl, True)    
+data, success = download_data(fmturl, True)
 base, curr_frag, frag_dur = get_seq(data.decode("utf-8"))
 
 if (len(base) == 0):
@@ -250,7 +250,7 @@ if (len(base) == 0):
 frag_back = 0
 if time_para != '':
     frag_back, timeback = cal_time_back(time_para, frag_dur)
-    
+
 if frag_back > 0:
     msg.info('time back to {}, frags back={}, at {} sec/fragment'.format(timeback,
               frag_back, frag_dur))
@@ -258,7 +258,7 @@ elif time_para == '':
     msg.info('no time back, start at current time')
 else:
     msg.info('invalid time back para ignored - {}, start at current time'.format(time_para))
-            
+
 frag = max(int(curr_frag)-frag_back, 0)   # adjust time back
 
 # ================ create new frag dir if necessary
@@ -268,7 +268,7 @@ while os.path.exists(newdir):       # existing dir must be empty
         break
     n += 1
     newdir = fragdir + repr(n)
-    
+
 if not os.path.exists(newdir):      # must have 'write' permission
     os.makedirs(newdir)
 
@@ -285,13 +285,13 @@ while True:
     url = base + repr(frag)
     vidname = prefix + repr(frag) + '.ts'
     vidpath = os.path.join(newdir, vidname)
-    
+
     vdata, success = download_data(url)
-    
+
     if success:
         with open(vidpath, 'wb') as file:
             file.write(vdata)
-        
+
         size += len(vdata)
         count += 1
         if count % counter == 0:    # update status
@@ -300,5 +300,5 @@ while True:
             print('frags done: {}, size: {} (mb), time (hr:min) = {}:{}'.format(count, size//1000000, hr, ('0'+repr(mn))[-2:]), end='\r')
     else:
         terminate(count, count)     # filler args
-        
+
     frag += 1
